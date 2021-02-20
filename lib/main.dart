@@ -1,7 +1,7 @@
-import 'package:fintrack/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 import 'widgets/new_transaction.dart';
 import 'models/transactions.dart';
+import 'widgets/transaction_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +11,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        fontFamily: 'QuickSand',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  color: Colors.yellow,
+                  fontFamily: 'OpenSans',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
       ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
@@ -25,18 +36,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      title: 'New Shoes',
-      amount: 69.9,
-      id: 't1',
-      date: DateTime.now(),
-    ),
-    Transaction(
-      title: 'New Shirt',
-      amount: 87.0,
-      id: 't2',
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   title: 'New Shoes',
+    //   amount: 69.9,
+    //   id: 't1',
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   title: 'New Shirt',
+    //   amount: 87.0,
+    //   id: 't2',
+    //   date: DateTime.now(),
+    // ),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -81,8 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         title: Text(
-          'Expenses App',
-          style: TextStyle(color: Colors.yellow, fontSize: 25.0),
+          'Track Expenses',
         ),
         centerTitle: true,
       ),
