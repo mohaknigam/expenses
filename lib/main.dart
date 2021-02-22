@@ -13,10 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                  fontFamily: 'QuickSand',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
+              headline6: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              button: TextStyle(color: Colors.white),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -53,16 +51,17 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
       title: txTitle,
       id: DateTime.now().toString(),
       amount: txAmount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
 
     setState(() {
-      _transactions.insert(0, newTx);
+      _transactions.insert(0, newTx); // to insert new element at top always
     });
   }
 
@@ -95,7 +94,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         title: Text(
-          'Track Expenses',
+          'FinTrack',
         ),
         centerTitle: true,
       ),

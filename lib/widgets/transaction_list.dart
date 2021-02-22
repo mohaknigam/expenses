@@ -9,7 +9,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 300,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -34,19 +34,38 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 27,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: FittedBox(
-                        child: Text('₹${transactions[index].amount}'),
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 27,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                          child: Text(
+                            '₹${transactions[index].amount}',
+                            style: TextStyle(
+                                color: Colors.yellow,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: Theme.of(context).textTheme.headline6,
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {},
+                      color: Theme.of(context)
+                          .errorColor, // can simply use Colors.red also
+                      iconSize: 28,
+                    ),
                   ),
                 );
               },
