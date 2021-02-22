@@ -60,9 +60,11 @@ class _HomePageState extends State<HomePage> {
       date: chosenDate,
     );
 
-    setState(() {
-      _transactions.insert(0, newTx); // to insert new element at top always
-    });
+    setState(
+      () {
+        _transactions.insert(0, newTx); // to insert new element at top always
+      },
+    );
   }
 
   void _startAddingNewTransaction(BuildContext ctx) {
@@ -78,6 +80,12 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -106,6 +114,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TransactionList(
               transactions: _transactions,
+              deleteTx: _deleteTransaction,
             ),
           ],
         ),
