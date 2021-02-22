@@ -12,7 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        fontFamily: 'QuickSand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                  fontFamily: 'QuickSand',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -36,20 +41,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   title: 'New Shoes',
-    //   amount: 69.9,
-    //   id: 't1',
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   title: 'New Shirt',
-    //   amount: 87.0,
-    //   id: 't2',
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tx) {
