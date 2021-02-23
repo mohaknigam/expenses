@@ -3,6 +3,7 @@ import 'widgets/new_transaction.dart';
 import 'models/transactions.dart';
 import 'widgets/transaction_list.dart';
 import 'widgets/chart.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +40,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = [
+    /*
+    Transaction(
+        title: 'New Shows',
+        id: DateTime.now().toString(),
+        amount: 23,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New Shoes',
+        id: DateTime.now().toString(),
+        amount: 24,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New Shirt',
+        id: DateTime.now().toString(),
+        amount: 30,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New cow',
+        id: DateTime.now().toString(),
+        amount: 34,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New Shall',
+        id: DateTime.now().toString(),
+        amount: 21,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New town',
+        id: DateTime.now().toString(),
+        amount: 42,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New Shows2',
+        id: DateTime.now().toString(),
+        amount: 25,
+        date: DateTime.now()),
+    Transaction(
+        title: 'New Shows3',
+        id: DateTime.now().toString(),
+        amount: 213,
+        date: DateTime.now()),
+
+     */
+  ];
+
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tx) {
@@ -90,32 +137,79 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            splashColor: Colors.yellow,
-            iconSize: 30,
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddingNewTransaction(context),
-            color: Colors.yellow,
-          ),
-        ],
-        title: Text(
-          'FinTrack',
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final appBar = AppBar(
+      actions: [
+        IconButton(
+          splashColor: Colors.yellow,
+          iconSize: 30,
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddingNewTransaction(context),
+          color: Colors.yellow,
         ),
-        centerTitle: true,
+      ],
+      title: Text(
+        'FinTrack',
       ),
+      centerTitle: true,
+    );
+
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.65, //65%
+      child: TransactionList(
+        transactions: _transactions,
+        deleteTx: _deleteTransaction,
+      ),
+    );
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Chart(
-              recentTransactions: _recentTransactions,
-            ),
-            TransactionList(
-              transactions: _transactions,
-              deleteTx: _deleteTransaction,
-            ),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.35, //35%
+                child: Chart(
+                  recentTransactions: _recentTransactions,
+                ),
+              ),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.7, //35%
+                      child: Chart(
+                        recentTransactions: _recentTransactions,
+                      ),
+                    )
+                  : txListWidget,
           ],
         ),
       ),
