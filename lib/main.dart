@@ -41,7 +41,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [
-    /*
     Transaction(
         title: 'New Shows',
         id: DateTime.now().toString(),
@@ -82,8 +81,6 @@ class _HomePageState extends State<HomePage> {
         id: DateTime.now().toString(),
         amount: 213,
         date: DateTime.now()),
-
-     */
   ];
 
   bool _showChart = false;
@@ -137,8 +134,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    MediaQueryData media = MediaQuery.of(context);
+
+    final isLandscape = media.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       actions: [
@@ -157,9 +155,9 @@ class _HomePageState extends State<HomePage> {
     );
 
     final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height -
+      height: (media.size.height -
               appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top) *
+              media.padding.top) *
           0.65, //65%
       child: TransactionList(
         transactions: _transactions,
@@ -189,9 +187,9 @@ class _HomePageState extends State<HomePage> {
               ),
             if (!isLandscape)
               Container(
-                height: (MediaQuery.of(context).size.height -
+                height: (media.size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
+                        media.padding.top) *
                     0.35, //35%
                 child: Chart(
                   recentTransactions: _recentTransactions,
@@ -201,9 +199,9 @@ class _HomePageState extends State<HomePage> {
             if (isLandscape)
               _showChart
                   ? Container(
-                      height: (MediaQuery.of(context).size.height -
+                      height: (media.size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
+                              media.padding.top) *
                           0.7, //35%
                       child: Chart(
                         recentTransactions: _recentTransactions,

@@ -51,68 +51,79 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 10,
-            right: 10,
-            left: 10,
-            bottom: 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _submitData(),
-              ),
-              Container(
-                height: 70,
-                child: Row(
+    MediaQueryData media = MediaQuery.of(context);
+    return Container(
+      height: 400,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  right: 10,
+                  left: 10,
+                  bottom: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: _selectedDate == null
-                          ? Text('No Date Chosen')
-                          : Text(
-                              'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
-                            ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
                     ),
-                    FlatButton(
-                      onPressed: _presentDatePicker,
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      onSubmitted: (_) => _submitData(),
+                    ),
+                    Container(
+                      height: 70,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _selectedDate == null
+                                ? Text('No Date Chosen')
+                                : Text(
+                                    'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                                  ),
+                          ),
+                          FlatButton(
+                            onPressed: _presentDatePicker,
+                            textColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              'Choose Date',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    RaisedButton(
+                      splashColor: Colors.purple,
+                      onPressed: () {
+                        _submitData();
+
+                        if (_titleController.text.isNotEmpty &&
+                            double.parse(_amountController.text) > 0) {
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
+                      child: Text('Add Transaction'),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).textTheme.button.color,
                     ),
                   ],
                 ),
               ),
-              RaisedButton(
-                splashColor: Colors.purple,
-                onPressed: () {
-                  _submitData();
-
-                  if (_titleController.text.isNotEmpty &&
-                      double.parse(_amountController.text) > 0) {
-                    FocusScope.of(context).unfocus();
-                  }
-                },
-                child: Text('Add Transaction'),
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: media.viewInsets.bottom,
+            )
+          ],
         ),
       ),
     );
