@@ -5,6 +5,7 @@ import 'widgets/new_transaction.dart';
 import 'models/transactions.dart';
 import 'widgets/transaction_list.dart';
 import 'widgets/chart.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 void main() => runApp(MyApp());
 
@@ -138,9 +139,25 @@ class _HomePageState extends State<HomePage> {
     MediaQueryData media = MediaQuery.of(context);
 
     final isLandscape = media.orientation == Orientation.landscape;
+    const IconData addIcon = const IconData(0xF3E9,
+        fontFamily: CupertinoIcons.iconFont,
+        fontPackage: CupertinoIcons.iconFontPackage);
 
-    final appBar = Platform.isIOS
-        ? CupertinoNavigationBar()
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              'FinTrack',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () => _startAddingNewTransaction(context),
+                  child: Icon(addIcon),
+                ),
+              ],
+            ),
+          )
         : AppBar(
             actions: [
               IconButton(
@@ -168,48 +185,53 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    final pageBody = SingleChildScrollView(
-      child: Column(
-        children: [
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart'),
-                Switch.adaptive(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
-          if (!isLandscape)
-            Container(
-              height: (media.size.height -
-                      appBar.preferredSize.height -
-                      media.padding.top) *
-                  0.35, //35%
-              child: Chart(
-                recentTransactions: _recentTransactions,
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Switch.adaptive(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
               ),
-            ),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (media.size.height -
-                            appBar.preferredSize.height -
-                            media.padding.top) *
-                        0.7, //35%
-                    child: Chart(
-                      recentTransactions: _recentTransactions,
-                    ),
-                  )
-                : txListWidget,
-        ],
+            if (!isLandscape)
+              Container(
+                height: (media.size.height -
+                        appBar.preferredSize.height -
+                        media.padding.top) *
+                    0.35, //35%
+                child: Chart(
+                  recentTransactions: _recentTransactions,
+                ),
+              ),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (media.size.height -
+                              appBar.preferredSize.height -
+                              media.padding.top) *
+                          0.7, //35%
+                      child: Chart(
+                        recentTransactions: _recentTransactions,
+                      ),
+                    )
+                  : txListWidget,
+          ],
+        ),
       ),
     );
 
