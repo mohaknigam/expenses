@@ -164,12 +164,16 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    final pageBody = SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLandscape)
-              Row(
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isLandscape)
+            Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.18,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -186,31 +190,37 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            if (!isLandscape)
-              Container(
-                height: (media.size.height -
-                        appBar.preferredSize.height -
-                        media.padding.top) *
-                    0.35, //35%
-                child: Chart(
-                  recentTransactions: _recentTransactions,
-                ),
+            ),
+          if (!isLandscape)
+            Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.35, //35%
+              child: Chart(
+                recentTransactions: _recentTransactions,
               ),
-            if (!isLandscape) txListWidget,
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (media.size.height -
-                              appBar.preferredSize.height -
-                              media.padding.top) *
-                          0.7, //35%
-                      child: Chart(
-                        recentTransactions: _recentTransactions,
-                      ),
-                    )
-                  : txListWidget,
-          ],
-        ),
+            ),
+          if (!isLandscape) txListWidget,
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    height: (media.size.height -
+                            appBar.preferredSize.height -
+                            media.padding.top) *
+                        0.7, //35%
+                    child: Chart(
+                      recentTransactions: _recentTransactions,
+                    ),
+                  )
+                : Container(
+                    height: (media.size.height -
+                            appBar.preferredSize.height -
+                            media.padding.top) *
+                        0.82,
+                    child: txListWidget,
+                  ),
+        ],
       ),
     );
 
