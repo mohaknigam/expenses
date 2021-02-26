@@ -1,11 +1,8 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'widgets/new_transaction.dart';
 import 'models/transactions.dart';
 import 'widgets/transaction_list.dart';
 import 'widgets/chart.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 
 void main() => runApp(MyApp());
 
@@ -139,40 +136,22 @@ class _HomePageState extends State<HomePage> {
     MediaQueryData media = MediaQuery.of(context);
 
     final isLandscape = media.orientation == Orientation.landscape;
-    const IconData addIcon = const IconData(0xF3E9,
-        fontFamily: CupertinoIcons.iconFont,
-        fontPackage: CupertinoIcons.iconFontPackage);
 
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text(
-              'FinTrack',
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () => _startAddingNewTransaction(context),
-                  child: Icon(addIcon),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            actions: [
-              IconButton(
-                splashColor: Colors.yellow,
-                iconSize: 30,
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddingNewTransaction(context),
-                color: Colors.yellow,
-              ),
-            ],
-            title: Text(
-              'FinTrack',
-            ),
-            centerTitle: true,
-          );
+    final appBar = AppBar(
+      actions: [
+        IconButton(
+          splashColor: Colors.yellow,
+          iconSize: 30,
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddingNewTransaction(context),
+          color: Colors.yellow,
+        ),
+      ],
+      title: Text(
+        'FinTrack',
+      ),
+      centerTitle: true,
+    );
 
     final txListWidget = Container(
       height: (media.size.height -
@@ -235,27 +214,19 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    return Platform.isIOS
-        ? CupertinoPageScaffold(
-            child: pageBody,
-            navigationBar: appBar,
-          )
-        : Scaffold(
-            appBar: appBar,
-            body: pageBody,
-            floatingActionButton: Platform.isIOS
-                ? Container()
-                : FloatingActionButton(
-                    splashColor: Colors.yellow,
-                    onPressed: () => _startAddingNewTransaction(context),
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                  ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-          );
+    return Scaffold(
+      appBar: appBar,
+      body: pageBody,
+      floatingActionButton: FloatingActionButton(
+        splashColor: Colors.yellow,
+        onPressed: () => _startAddingNewTransaction(context),
+        child: Icon(
+          Icons.add,
+          color: Colors.yellow,
+          size: 30,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
