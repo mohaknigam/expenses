@@ -131,6 +131,68 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<Widget> buildLandscapeContent(MediaQueryData media, AppBar appBar,
+      BuildContext context, Widget txListWidget) {
+    return [
+      Container(
+        height: (media.size.height -
+                appBar.preferredSize.height -
+                media.padding.top) *
+            0.18,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Show Chart',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Switch.adaptive(
+              value: _showChart,
+              onChanged: (val) {
+                setState(() {
+                  _showChart = val;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+      _showChart
+          ? Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.7, //35%
+              child: Chart(
+                recentTransactions: _recentTransactions,
+              ),
+            )
+          : Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.82,
+              child: txListWidget,
+            ),
+    ];
+  }
+
+  List<Widget> buildPotraitContent(
+      MediaQueryData media, AppBar appBar, Widget txListWidget) {
+    return [
+      Container(
+        height: (media.size.height -
+                appBar.preferredSize.height -
+                media.padding.top) *
+            0.35, //35%
+        child: Chart(
+          recentTransactions: _recentTransactions,
+        ),
+      ),
+      txListWidget,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
@@ -168,58 +230,8 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           if (isLandscape)
-            Container(
-              height: (media.size.height -
-                      appBar.preferredSize.height -
-                      media.padding.top) *
-                  0.18,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-          if (!isLandscape)
-            Container(
-              height: (media.size.height -
-                      appBar.preferredSize.height -
-                      media.padding.top) *
-                  0.35, //35%
-              child: Chart(
-                recentTransactions: _recentTransactions,
-              ),
-            ),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (media.size.height -
-                            appBar.preferredSize.height -
-                            media.padding.top) *
-                        0.7, //35%
-                    child: Chart(
-                      recentTransactions: _recentTransactions,
-                    ),
-                  )
-                : Container(
-                    height: (media.size.height -
-                            appBar.preferredSize.height -
-                            media.padding.top) *
-                        0.82,
-                    child: txListWidget,
-                  ),
+            ...buildLandscapeContent(media, appBar, context, txListWidget),
+          if (!isLandscape) ...buildPotraitContent(media, appBar, txListWidget),
         ],
       ),
     );
