@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'widgets/new_transaction.dart';
 import 'models/transactions.dart';
 import 'widgets/transaction_list.dart';
-import 'models/PageBody.dart';
+import 'widgets/chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -82,6 +82,18 @@ class _HomePageState extends State<HomePage> {
         date: DateTime.now()),
   ];
 
+  bool _showChart = false;
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   void _addNewTransaction(
       String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
@@ -113,6 +125,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
@@ -135,9 +153,75 @@ class _HomePageState extends State<HomePage> {
       centerTitle: true,
     );
 
-    final pageBody = PageBody(
-      addNewtransaction: _addNewTransaction(txTitle, txAmount, chosenDate),
-      transactions: _transactions,
+    final txListWidget = Container(
+      height: (media.size.height -
+              appBar.preferredSize.height -
+              media.padding.top) *
+          0.65, //65%
+      child: TransactionList(
+        transactions: _transactions,
+        deleteTx: _deleteTransaction,
+      ),
+    );
+
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isLandscape)
+            Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.18,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Switch.adaptive(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          if (!isLandscape)
+            Container(
+              height: (media.size.height -
+                      appBar.preferredSize.height -
+                      media.padding.top) *
+                  0.35, //35%
+              child: Chart(
+                recentTransactions: _recentTransactions,
+              ),
+            ),
+          if (!isLandscape) txListWidget,
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    height: (media.size.height -
+                            appBar.preferredSize.height -
+                            media.padding.top) *
+                        0.7, //35%
+                    child: Chart(
+                      recentTransactions: _recentTransactions,
+                    ),
+                  )
+                : Container(
+                    height: (media.size.height -
+                            appBar.preferredSize.height -
+                            media.padding.top) *
+                        0.82,
+                    child: txListWidget,
+                  ),
+        ],
+      ),
     );
 
     return Scaffold(
