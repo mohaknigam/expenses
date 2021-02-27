@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class EmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return Column(
@@ -16,7 +18,7 @@ class EmptyScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 35,
+              height: isLandscape ? 5 : 35,
             ),
             Container(
                 height: constraints.maxHeight * 0.6,

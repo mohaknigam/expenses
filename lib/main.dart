@@ -40,46 +40,46 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-        title: 'New Shows',
-        id: DateTime.now().toString(),
-        amount: 23,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New Shoes',
-        id: DateTime.now().toString(),
-        amount: 24,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New Shirt',
-        id: DateTime.now().toString(),
-        amount: 30,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New cow',
-        id: DateTime.now().toString(),
-        amount: 34,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New Shall',
-        id: DateTime.now().toString(),
-        amount: 21,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New town',
-        id: DateTime.now().toString(),
-        amount: 42,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New Shows2',
-        id: DateTime.now().toString(),
-        amount: 25,
-        date: DateTime.now()),
-    Transaction(
-        title: 'New Shows3',
-        id: DateTime.now().toString(),
-        amount: 213,
-        date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shows',
+    //       id: DateTime.now().toString(),
+    //       amount: 23,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shoes',
+    //       id: DateTime.now().toString(),
+    //       amount: 24,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shirt',
+    //       id: DateTime.now().toString(),
+    //       amount: 30,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New cow',
+    //       id: DateTime.now().toString(),
+    //       amount: 34,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shall',
+    //       id: DateTime.now().toString(),
+    //       amount: 21,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New town',
+    //       id: DateTime.now().toString(),
+    //       amount: 42,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shows2',
+    //       id: DateTime.now().toString(),
+    //       amount: 25,
+    //       date: DateTime.now()),
+    //   Transaction(
+    //       title: 'New Shows3',
+    //       id: DateTime.now().toString(),
+    //       amount: 213,
+    //       date: DateTime.now()),
   ];
 
   bool _showChart = false;
